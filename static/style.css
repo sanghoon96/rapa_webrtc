@@ -1,0 +1,17 @@
+body{
+    color:#0084ff;
+    background-color:#dfdfdff5;
+    font-size:11pt;
+}
+textarea {
+    width:100%;
+}
+
+input[type=submit] {
+    margin-top:10px;
+}
+
+h1{
+    color: #0084ff;
+    text-shadow: cornsilk;
+}

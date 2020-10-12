@@ -1,0 +1,33 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<script src="{% static 'common.js' %}"></script>
+
+<script>
+go();
+</script>
+
+<img src="{% static '/images/1.jpg'%}" >
+
+<h1>{{ question.subject }}</h1>
+
+<div>
+    {{ question.content }}
+</div>
+
+<h5>{{ question.answer_set.count }}개의 답변이 있습니다.</h5>
+<div>
+    <ul>
+    {% for answer in question.answer_set.all %}
+        <li>{{ answer.content }}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+
+<!-- -------------- [edit] ---------------------------------------- -->
+<form action="{% url 'blog:answer_create' question.id %}" method="post">
+{% csrf_token %} <!-- post 전송시 반드시 필요함-->
+<textarea name="content" id="content" rows="15"></textarea>
+<input type="submit" value="답변등록">
+</form>
+<!-- --------------------------------------------------------------- -->

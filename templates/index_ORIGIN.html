@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Realtime communication with WebRTC</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+
+<body>
+  {%csrf_token%}
+  <h1>Realtime communication with WebRTC</h1>
+
+  <div id="videoCanvas">
+    <video id="camera" autoplay playsinline></video>
+    <canvas id="photo"></canvas>
+  </div>
+
+  <div>
+    <form method="post">
+      <input type="text"  id="d_id">
+    </form>
+    
+  </div>
+
+  <div id="buttons">
+    <button id="snap">Snap</button>
+    <span> | </span><button id="start">Start</button>
+    <span> or </span>
+    <button id="stop">Stop</button>
+  </div>
+
+  <div id="incoming">
+    <h2>Incoming photos</h2>
+    <div id="trail"></div>
+  </div>
+
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
+<script>
+  $(document).ready(function(){
+    console.log("ddd")
+    grabWebCamVideo();
+  });
+  </script>

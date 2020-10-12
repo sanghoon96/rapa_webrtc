@@ -1,0 +1,14 @@
+SELECT 
+		 cast((SELECT  @ROWNUM := @ROWNUM + 1) as integer) AS rnum,
+		 d_id, img_path, img_name, id         
+		 FROM  common_dronedatamodels T ,(SELECT @ROWNUM := 0 ) TMP 
+         where T.d_id='mydrone_2'
+         ORDER BY ID ASC
+
+
+SELECT 
+		  cast((SELECT  @ROWNUM := @ROWNUM + 1) as integer) AS rnum,
+		  d_id, img_path, img_name, id         
+		 FROM  common_dronedatamodels T 
+         ,(SELECT @ROWNUM := 0 ) TMP 
+         ORDER BY ID ASC

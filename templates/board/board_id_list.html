@@ -1,0 +1,136 @@
+<!-- ---------------------------------------- [edit] ---------------------------------------- -->
+{% extends 'base.html' %}
+{% block content %}
+<!-- ---------------------------------------------------------------------------------------- -->
+
+<div class="container" style="margin-top:20px">
+  <h2>Drone ID list</h2>
+  <p></p>
+  
+  <form name="form">
+  	
+  <div class="input-group mt-3 mb-3">
+  <div class="input-group-prepend">
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" 
+        id="searchItem">
+     	  전체
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#" onclick="changeSearch('1')">전체</a>
+      <a class="dropdown-item" href="#" onclick="changeSearch('2')">Drone ID</a>
+      <a class="dropdown-item" href="#" onclick="changeSearch('3')">Image Name</a>
+      <a class="dropdown-item" href="#" onclick="changeSearch('4')">Image Route</a>
+    </div>
+  </div>
+  <input type="text" class="form-control" name="key" id="key" value="" placeholder="검색어를 입력하세요">
+  <div class="input-group-append">
+    <button class="btn btn-success" type="button" onclick="goSearch()">Go</button>
+  </div>
+</div>
+
+
+  <table class="table">
+  	<colgroup>
+  		<col width="8%"/>
+  		<col width="*">
+  		<col width="12%"/>
+  		<col width="12%"/>
+      <col width="12%"/>
+  	</colgroup>
+    <thead class="table-primary">
+      <tr>
+        <th> </th>
+        <th>드론id</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+      {% if board_list %}
+      
+        {% for board in board_list %}
+        <tr>
+          
+            <!--<td>{{ forloop.counter }}</td>-->
+            <td>{{ board.rnum}}</td>
+            <td>
+                <a href="{%url 'board:list' board.d_id %}">{{ board.d_id }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">데이터가 존재하지 않습니다.</td>
+        </tr>
+        {% endif %}
+      </tr>      
+    </tbody>
+  </table>
+
+  {% include "pageing.html" %}
+
+
+</form>
+</div>
+
+
+<script>
+window.onload=goInit();
+
+function goInit()
+{
+	var key ='1';
+	var sel ='1';
+	
+	console.log(sel);
+	changeSearch(sel);
+	document.getElementById("key").value = key;
+	
+}
+function check()
+{
+  var ex_dat = '';
+  var now_dat = '';
+
+
+}
+function goPage(pg)
+{
+	frm = document.form;
+	frm.pg.value=pg;
+	frm.action="/board/list2";
+	frm.submit();
+}
+
+function goWrite()
+{
+	frm = document.form;
+	frm.action="/board/write";
+	frm.submit();
+}
+
+function goSearch()
+{
+	frm = document.form;
+	frm.action="/board/list";
+	frm.submit();
+}
+
+function changeSearch(sel)
+{
+	document.getElementById("sel").value = sel;
+	
+	if(sel=="1")
+		sel="전체";
+	else if(sel=="2")
+		sel ="Drone ID";
+	else if(sel=="3")
+		sel ="Image Name";
+	else if(sel=="4")
+		sel ="Image Route";
+	
+	document.getElementById("searchItem").innerHTML = sel;
+}
+
+</script>
+
+{% endblock %}

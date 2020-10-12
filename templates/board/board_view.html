@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container" style="margin-top:20px">
+  <h2>드론 상세정보</h2>
+  <p></p>
+  <form name="form">
+  <table class="table">
+  	<colgroup>
+  		<col width="25%"/>
+  		<col width="*"/>
+  	</colgroup>
+    
+    <tbody>
+      <tr>
+      	<td>드론id</td>
+        <td>{{board.d_id}}
+  		</td>
+     </tr>      
+      <tr >
+        <td>이미지 경로</td>
+        <td>{{board.img_path}}</td>
+     
+      </tr>
+      <tr >
+        <td>이미지 이름</td>
+        <td>{{board.img_name}} 
+        </td>      
+      </tr>
+      <tr >
+        <td>경도</td>
+        <td>{{board.x}} 
+        </td>      
+      </tr>
+      <tr >
+        <td>위도</td>
+        <td>{{board.y}} 
+        </td>      
+      </tr>
+      <tr >
+        <td>주소</td>
+        <td>{{board.address}} 
+        </td>      
+      </tr>     
+      <tr>
+        <td>
+          이미지
+        </td>
+        <td><img src="/{{ board.img_path }}{{ board.img_name }} " width="700px"></td>
+        
+      </tr>
+      <tr>
+        <td>GPS기반 가늠 위치</td>
+        <td>
+          <div id="map" style="width:450px;height:350px;"></div>
+          <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d4d24cd3f05e65f2e3e8e51632fd6184"></script>
+        </td>
+      </tr>
+
+       <tr>        
+        <td></td>
+        <td></td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  	<div class="container" style="text-align:right">
+	  <div class="btn-group">
+	    
+	    <button type="button" class="btn btn-danger"  onclick="goDelete()">삭제</button>&nbsp;&nbsp;
+		  <button type="button" class="btn btn-primary" onclick="goList()">목록</button>
+	  </div>
+	</div>
+</form>	
+</div>
+
+<script>
+var mapContainer = document.getElementById('map') // 지도를 표시할 div 태그
+var mapOption = { 
+        center: new kakao.maps.LatLng({{board.y}}, {{board.x}}), // 지도의 중심좌표 전송
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성
+
+function setCenter() {            
+    // 지도에 이동할 위도 경도 위치를 생성
+    var moveLatLon = new kakao.maps.LatLng({{board.y}}, {{board.x}});    
+    // 지도 중심을 해당좌표로 이동
+    map.setCenter(moveLatLon);
+}
+
+function panTo() {
+    // 이동할 위도 경도 위치를 생성
+    var moveLatLon = new kakao.maps.LatLng({{board.y}}, {{board.x}});    
+    // 지도 중심을 부드럽게 이동
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동
+    map.panTo(moveLatLon);            
+}        
+
+function goModify(){
+  //document-html 문서를 말하고 document에 name속성이 form인 객체를 가져와라 
+  frm = document.form; 
+  frm.action="/board/modify/{{board.id}}";
+  frm.method="get";
+  frm.submit();
+}
+
+function goList(){
+  location.href="/board/list/{{board.d_id}}"; //get방식으로 페이지 넘길때
+
+  /*
+  frm = document.form; 
+  frm.action="/board/list/";
+  frm.method="get";
+  frm.submit();
+  */
+}
+
+function goDelete()
+{
+  if(confirm('삭제하시겠습니까?'))
+  {
+    frm = document.form; 
+    frm.action="/board/delete/{{board.id}}/{{board.d_id}}";
+    frm.method="get";
+    frm.submit();
+  }
+}
+
+</script>
+
+{% endblock %}
